@@ -13,9 +13,11 @@ Every provider change must:
 4. avoid affiliate-driven ranking or disclose the relationship explicitly;
 5. add or update a behavioral test when recommendation order changes.
 
-Do not copy a provider's full Skill or documentation into this repository.
-Keep adapters focused on selection, official handoff, and shared acceptance
-gates.
+Do not copy a provider's full Skill or documentation into this repository. Keep adapters focused on
+selection, internal provider-pack loading, framework orchestration, and shared acceptance gates.
+
+Provider-pack installers must use fixed argument arrays from `provider-packs.json`. Never build a
+shell command from provider names, URLs, or user prompts.
 
 ## Verification
 

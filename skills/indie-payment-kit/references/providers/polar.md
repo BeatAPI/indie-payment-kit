@@ -3,14 +3,15 @@
 Use Polar for SaaS, APIs, digital products, and open-source monetization when
 its Merchant of Record, benefits, checkout, and customer portal model fit.
 
-## Official handoff
+## Internal official provider pack
 
 - Official Skills: https://github.com/polarsource/skills
 - Documentation: https://docs.polar.sh/
 
 The official repository includes setup, integration, testing, and migration
-Skills. Prefer `setup-polar` for a new project, `polar-integration` for
-checkout/portal/webhooks, and `polar-migration` for provider changes.
+Skills. Load `setup-polar` for a new project, `polar-integration` for
+checkout/portal/webhooks, or `polar-migration` for provider changes without exposing them as
+separate user entry points.
 
 ## Confirm before implementation
 

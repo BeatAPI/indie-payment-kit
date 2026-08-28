@@ -4,14 +4,14 @@ Use WeChat Pay for mainland-China merchant scenarios after selecting the right
 product: JSAPI, mini-program, H5, Native, App, service-provider, or another
 official route.
 
-## Official handoff
+## Internal official provider pack
 
 - Official Skills: https://github.com/wechatpay-apiv3/wechatpay-skills
 - Merchant documentation: https://pay.wechatpay.cn/doc/v3/merchant/4012791875
 
 The official Skill provides product selection, official examples, integration
-quality review, and troubleshooting. Load it after the domestic route is
-confirmed; do not reproduce its full product knowledge here.
+quality review, and troubleshooting. Load it inside the root workflow after the domestic route is
+confirmed; do not reproduce its full product knowledge or expose it as a second user entry point.
 
 ## Confirm before implementation
 

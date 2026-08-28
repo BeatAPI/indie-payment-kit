@@ -1,7 +1,7 @@
 interface:
   display_name: "Indie Payment Kit"
-  short_description: "Choose, integrate, and verify the right payment stack"
-  default_prompt: "Use $indie-payment-kit to choose and plan the right payment integration for this project."
+  short_description: "Connect and sandbox-test payments from one Skill"
+  default_prompt: "Use $indie-payment-kit to connect this project to the right payment provider and verify the sandbox flow."
 
 policy:
   allow_implicit_invocation: true

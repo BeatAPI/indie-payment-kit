@@ -10,10 +10,15 @@ const frameworkPackages = [
   ['@tanstack/start', 'tanstack'],
   ['hono', 'hono'],
   ['express', 'express'],
+  ['fastify', 'fastify'],
   ['astro', 'astro'],
   ['nuxt', 'nuxt'],
-  ['svelte', 'svelte'],
+  ['@sveltejs/kit', 'sveltekit'],
+  ['vite', 'vite'],
 ];
+
+const integratedServerFrameworks = new Set(['nextjs', 'tanstack', 'nuxt', 'sveltekit']);
+const backendFrameworks = new Set(['hono', 'express', 'fastify']);
 
 const paymentSignals = [
   ['stripe', 'stripe'],
@@ -63,6 +68,34 @@ export async function inspectProject(inputPath = '.') {
 
   const frameworks = detectFromDependencies(dependencies, frameworkPackages);
   const paymentDependencies = detectFromDependencies(dependencies, paymentSignals);
+  const hasRootHtml = await exists(path.join(projectDir, 'index.html'));
+  const hasPublicHtml = await exists(path.join(projectDir, 'public', 'index.html'));
+  const hasHtml = hasRootHtml || hasPublicHtml;
+  const serverDirectories = [];
+  for (const directory of ['api', 'server', 'functions', 'netlify/functions']) {
+    if (await exists(path.join(projectDir, directory))) serverDirectories.push(directory);
+  }
+  const integratedServer = frameworks.some((framework) => integratedServerFrameworks.has(framework));
+  const backendServer = frameworks.some((framework) => backendFrameworks.has(framework)) || serverDirectories.length > 0;
+
+  let projectKind = 'unknown';
+  if (integratedServer) projectKind = 'fullstack';
+  else if (backendServer && hasHtml) projectKind = 'html-with-backend';
+  else if (backendServer) projectKind = 'backend';
+  else if (hasHtml || frameworks.includes('vite')) projectKind = 'static-web';
+  else if (packageJson) projectKind = 'javascript';
+
+  let serverCapability = 'unknown';
+  if (integratedServer) serverCapability = 'integrated';
+  else if (backendServer) serverCapability = 'backend';
+  else if (projectKind === 'static-web') serverCapability = 'external-required';
+
+  let integrationTarget = 'other';
+  if (frameworks.includes('nextjs')) integrationTarget = 'nextjs';
+  else if (frameworks.includes('tanstack')) integrationTarget = 'tanstack';
+  else if (frameworks.includes('hono')) integrationTarget = 'hono';
+  else if (backendServer) integrationTarget = 'generic-node';
+  else if (projectKind === 'static-web') integrationTarget = 'static-html';
 
   const lockfiles = [];
   for (const filename of ['pnpm-lock.yaml', 'package-lock.json', 'yarn.lock', 'bun.lockb']) {
@@ -85,11 +118,19 @@ export async function inspectProject(inputPath = '.') {
     projectDir,
     packageManager: lockfiles[0] ?? null,
     frameworks,
-    suggestedStack: frameworks.find((item) => ['nextjs', 'tanstack', 'hono'].includes(item)) ?? 'other',
+    projectKind,
+    serverCapability,
+    integrationTarget,
+    hasHtml,
+    serverDirectories,
+    suggestedStack: integrationTarget,
     paymentDependencies,
     safeEnvironmentKeys,
     warnings: [
       ...(packageJson ? [] : ['No package.json found; inspect the project manually.']),
+      ...(serverCapability === 'external-required'
+        ? ['Static web project detected; dynamic checkout, verified webhooks, and entitlements require a trusted backend or serverless function.']
+        : []),
       ...(paymentDependencies.length > 1
         ? ['Multiple payment SDK signals found; determine whether this is migration, fallback, or stale code.']
         : []),

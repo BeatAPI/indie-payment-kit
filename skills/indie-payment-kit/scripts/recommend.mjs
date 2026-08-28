@@ -11,7 +11,7 @@ const choices = {
   product: ['saas', 'digital-goods', 'api', 'physical', 'marketplace'],
   billing: ['one-time', 'subscription', 'usage', 'credits'],
   tax: ['managed', 'self'],
-  stack: ['nextjs', 'tanstack', 'hono', 'other'],
+  stack: ['nextjs', 'tanstack', 'hono', 'node', 'html', 'other'],
   format: ['markdown', 'json'],
 };
 
@@ -198,13 +198,13 @@ function renderMarkdown(result) {
       '',
       ...item.cautions.map((caution) => `- ${caution}`),
       '',
-      `Official Skill: ${item.officialSkill}`,
+      `Official provider source: ${item.officialSkill}`,
       `Official docs: ${item.officialDocs}`,
       '',
     );
   }
 
-  lines.push(`> ${result.disclaimer}`);
+  lines.push('', '> Continue inside Indie Payment Kit. Do not ask the developer to invoke the provider Skill separately.', `> ${result.disclaimer}`);
   return `${lines.join('\n')}\n`;
 }
 

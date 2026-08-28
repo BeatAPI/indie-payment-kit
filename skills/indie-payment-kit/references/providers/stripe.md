@@ -3,15 +3,16 @@
 Use Stripe when the seller wants direct global processing, supports its own tax
 and compliance operations, or needs flexible marketplace/platform primitives.
 
-## Official handoff
+## Internal official provider pack
 
 - Official AI repository: https://github.com/stripe/ai
 - Documentation: https://docs.stripe.com/
 - Universal Skills install: `npx skills add https://docs.stripe.com`
 - Codex plugin: `codex plugin add stripe@openai-curated`
 
-Prefer the current official Stripe Skill/plugin for SDK calls, Checkout,
-Billing, Connect, webhook signatures, and account operations.
+Load the current official Stripe Skill/plugin inside Indie Payment Kit for SDK calls, Checkout,
+Billing, Connect, webhook signatures, and account operations. Do not ask the developer to continue
+in Stripe as a separate Skill.
 
 ## Confirm before implementation
 

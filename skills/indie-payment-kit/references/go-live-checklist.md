@@ -1,7 +1,7 @@
 # Payment go-live checklist
 
-Report every item as `pass`, `fail`, `not tested`, or `not applicable`. A code
-path or dashboard screenshot is not proof that a payment completed.
+Report every item as `pass`, `fail`, `not tested`, or `not applicable`. A code path, dependency
+installation, checkout page, or dashboard screenshot is not proof that a payment completed.
 
 ## Account and product
 
@@ -47,11 +47,16 @@ path or dashboard screenshot is not proof that a payment completed.
 
 Use the highest level actually demonstrated:
 
-1. `code-written`
-2. `sandbox-configured`
-3. `sandbox-payment-verified`
-4. `sandbox-lifecycle-verified`
-5. `production-configured`
-6. `production-payment-verified`
+1. `inspected`
+2. `provider-confirmed`
+3. `provider-pack-ready`
+4. `code-written`
+5. `local-validation-passed`
+6. `sandbox-configured`
+7. `sandbox-checkout-opened`
+8. `sandbox-payment-verified`
+9. `sandbox-lifecycle-verified`
+10. `production-configured`
+11. `production-payment-verified`
 
 Never collapse these levels into a generic “integrated” status.

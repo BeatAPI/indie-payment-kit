@@ -4,16 +4,16 @@ Use Alipay for mainland-China merchant checkout only after identifying the
 specific product and merchant route. Keep merchant payment integration separate
 from agent-wallet and HTTP 402 payment products.
 
-## Official handoff
+## Internal official provider pack
 
 - Merchant-integration Skills hub: https://github.com/alipay/ai
 - Agent payment Skills: https://github.com/alipay/payment-skills
 - Open Platform: https://open.alipay.com/
-- Agent-payment installer: `npx -y @alipay/agent-payment@latest install`
+- Agent-payment installer: `npx -y @alipay/agent-payment@1.0.20 install`
 
-Select the official merchant-integration Skill for website, app, mini-program,
-or service-provider checkout. Use the agent-payment package only when the
-request actually concerns agent wallets, cashier links, or 402 flows.
+Select and load the official merchant-integration Skill inside Indie Payment Kit for website, app,
+mini-program, or service-provider checkout. Use the agent-payment package only when the request
+actually concerns agent wallets, cashier links, or 402 flows.
 
 ## Confirm before implementation
 

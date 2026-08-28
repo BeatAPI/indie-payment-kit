@@ -11,7 +11,11 @@ from the project and request before asking questions.
 - **Billing**: `one-time`, `subscription`, `usage`, or `credits`.
 - **Tax preference**: `managed` when the seller wants a Merchant of Record;
   `self` when the seller will remain merchant of record and manage obligations.
-- **Stack**: `nextjs`, `tanstack`, `hono`, or `other`.
+- **Stack**: `nextjs`, `tanstack`, `hono`, `node`, `html`, or `other`.
+
+Stack describes code placement, not provider eligibility. Inspect trusted-server capability
+separately: a static HTML page can redirect to a hosted Payment Link, while dynamic checkout,
+verified webhooks, and entitlements require a backend or serverless function.
 
 The entity value describes routing context, not a legal conclusion. A Chinese
 company may still qualify for a global provider, and an individual may qualify
@@ -50,9 +54,9 @@ Return:
 - reasons tied to the supplied profile;
 - merchant-eligibility assumptions;
 - operational cautions;
-- official Skill and docs sources;
-- the next reversible action.
+- official provider-pack and docs sources;
+- the next reversible action inside Indie Payment Kit.
 
 The committed recommender is transparent and deterministic. Use it as a
-baseline, then update or override the conclusion only with newer official
-evidence or project facts.
+baseline, then update or override the conclusion only with newer official evidence or project
+facts. Never end the recommendation by asking the developer to invoke the provider Skill.

@@ -17,9 +17,15 @@ const base = {
 
 test('catalog contains eight unique official-source providers', async () => {
   const catalog = await loadCatalog();
+  assert.equal(catalog.schemaVersion, 2);
   assert.equal(catalog.providers.length, 8);
   assert.equal(new Set(catalog.providers.map((provider) => provider.id)).size, 8);
   assert.ok(catalog.providers.every((provider) => provider.officialSkill.startsWith('https://')));
+});
+
+test('HTML is a supported code-placement target without changing provider eligibility', async () => {
+  const result = recommendFromCatalog(await loadCatalog(), { ...base, stack: 'html' });
+  assert.equal(result.recommendations[0].provider, 'dodo');
 });
 
 test('global individual SaaS with managed tax prefers a MoR route', async () => {

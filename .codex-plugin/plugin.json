@@ -1,7 +1,7 @@
 {
   "name": "indie-payment-kit",
-  "version": "0.1.0",
-  "description": "One entry point to choose, integrate, and verify payment providers for indie products.",
+  "version": "0.2.0",
+  "description": "One orchestrator that selects, installs, integrates, and sandbox-verifies payment providers for indie products.",
   "author": {
     "name": "BeatAPI",
     "email": "support@beatapi.io",
@@ -23,8 +23,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Indie Payment Kit",
-    "shortDescription": "Choose and verify the right payment stack",
-    "longDescription": "Scan an indie SaaS, API, or digital-product project, compare eight common global and China payment providers, route to current official provider skills and documentation, and apply a provider-neutral checkout, webhook, entitlement, refund, and go-live contract.",
+    "shortDescription": "Integrate and sandbox-test payments from one entry point",
+    "longDescription": "Scan an indie SaaS, API, static site, or digital-product project; choose a global or China payment route; load current official provider packs internally; implement checkout, webhook, entitlement, refund, and subscription flows; and report sandbox evidence without sending the developer to a second Skill.",
     "developerName": "BeatAPI",
     "category": "Developer Tools",
     "capabilities": [
@@ -35,9 +35,9 @@
     "privacyPolicyURL": "https://beatapi.io/privacy-policy",
     "termsOfServiceURL": "https://beatapi.io/terms-of-service",
     "defaultPrompt": [
-      "Use $indie-payment-kit to choose the right payment provider for this project.",
-      "Use $indie-payment-kit to review this payment integration before launch.",
-      "Use $indie-payment-kit to plan a safe migration to another payment provider."
+      "Use $indie-payment-kit to connect this project to the right payment provider and verify a sandbox payment.",
+      "Use $indie-payment-kit to add Stripe or Dodo Payments to this Next.js, TanStack, Hono, or HTML project.",
+      "Use $indie-payment-kit to review or migrate this payment integration without switching to another Skill."
     ],
     "brandColor": "#2563FF"
   }

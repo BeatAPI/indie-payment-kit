@@ -1,60 +1,64 @@
 # Indie Payment Kit
 
-One Skill to choose, integrate, and verify the right payment stack.
-
-Indie Payment Kit gives coding agents one entry point across eight common
-payment providers. It scans the project, recommends the right route, hands off
-to current official provider tooling, and applies one shared checkout,
-webhook, entitlement, refund, subscription, and go-live contract.
-
-## Why this exists
-
-An indie developer should not need to install and study eight unrelated Skills
-or MCP servers before deciding which payment provider fits their market,
-entity, product, and billing model.
-
-This project compresses that workflow:
+One Skill that selects, installs, integrates, and sandbox-verifies payments without sending the
+developer to a second provider Skill.
 
 ```text
-one install -> project scan -> provider recommendation -> official handoff
-            -> lifecycle implementation -> launch evidence
+one install -> inspect project -> choose provider -> load official pack internally
+            -> write checkout/webhook/entitlement -> verify sandbox evidence
 ```
 
-It is not a payment gateway, Merchant of Record, legal advisor, or credential
-broker. It does not move money.
+Built by [BeatAPI](https://beatapi.io) for independent developers using coding agents.
 
-## Supported selection routes
+## What changed in v0.2
 
-| Route | Providers |
-|---|---|
-| Global direct processing | Stripe, PayPal |
-| Merchant of Record | Dodo Payments, Paddle, Polar, Creem |
-| Mainland China | Alipay, WeChat Pay |
-
-Version `0.1.0` supports deterministic selection, current official-source
-handoff, and provider-neutral launch checks for all eight. Provider-specific
-production automation will be promoted separately only after end-to-end
-verification.
+- The primary path is orchestration, not official-source handoff.
+- Official Provider Skills remain upstream and are installed only when selected.
+- The user continues talking to `indie-payment-kit`; provider packs are internal dependencies.
+- Project inspection distinguishes Next.js, TanStack Start, Hono, generic Node, HTML with a
+  backend, and static HTML.
+- Static HTML receives a safe Payment Link plan; a trusted backend unlocks verified webhooks and
+  entitlements.
+- Every run ends with evidence states rather than a generic “integrated” claim.
 
 ## Install
-
-Install the Skill with the universal Skills CLI:
 
 ```bash
 npx skills add https://github.com/BeatAPI/indie-payment-kit
 ```
 
-Or clone the repository and point your agent at
-`skills/indie-payment-kit/SKILL.md`.
+Then ask:
 
-Example requests:
+- “Use Indie Payment Kit to add Stripe subscriptions to this TanStack project and test them.”
+- “Connect this Next.js app to Dodo Payments and verify the sandbox webhook.”
+- “Add a safe payment option to this static HTML site.”
+- “Choose and connect both a global and mainland-China payment route.”
 
-- “Choose the right payment provider for this SaaS.”
-- “I sell globally from China. Should I use Stripe, Dodo, or Paddle?”
-- “Review this webhook and entitlement flow before launch.”
-- “Plan a safe migration from Lemon Squeezy to another provider.”
+## Supported project targets
 
-## Run the deterministic recommender
+| Target | Integration mode |
+|---|---|
+| Next.js App Router | Full lifecycle |
+| TanStack Start | Full lifecycle |
+| Hono / Express / Fastify / Node | Full lifecycle |
+| HTML or SPA with an API | Full lifecycle |
+| Static HTML only | Hosted Payment Link; backend required for verified fulfillment |
+
+## Provider coverage
+
+Stripe, PayPal, Dodo Payments, Paddle, Polar, Creem, Alipay, and WeChat Pay remain selectable.
+Stripe and Dodo are the first deep-orchestration targets; support labels remain conservative until
+reproducible sandbox evidence exists.
+
+## Deterministic tools
+
+Inspect a project without reading secrets:
+
+```bash
+npm run inspect -- /path/to/project
+```
+
+Choose a route:
 
 ```bash
 npm run recommend -- \
@@ -63,28 +67,35 @@ npm run recommend -- \
   --product saas \
   --billing subscription \
   --tax managed \
-  --stack nextjs
+  --stack tanstack
 ```
 
-Machine-readable output:
+Build a framework-aware execution plan:
 
 ```bash
-npm run recommend -- --market china --entity china-business \
-  --product digital-goods --billing one-time --tax self \
-  --stack tanstack --format json
+npm run plan -- \
+  --project /path/to/project \
+  --provider dodo \
+  --billing subscription
 ```
 
-## Package layout
+Inspect a Provider Pack before installation:
 
-- `skills/indie-payment-kit/SKILL.md` — the single user-facing entry point.
-- `skills/indie-payment-kit/references/providers/` — lazy-loaded provider
-  adapters that point to official sources.
-- `skills/indie-payment-kit/references/provider-catalog.json` — transparent
-  decision data.
-- `skills/indie-payment-kit/scripts/` — project inspection and deterministic
-  recommendation helpers.
-- `docs/PRD.md` — product requirements and developer-acquisition strategy.
-- `docs/ARCHITECTURE.md` — packaging, routing, and trust boundaries.
+```bash
+npm run provider-pack -- --provider stripe --billing subscription
+```
+
+The provider-pack command is dry-run by default. The root Skill runs `--install --yes` only after
+the user approves the official source, external download, and repository changes.
+
+## Safety boundary
+
+- No default telemetry or credential collection.
+- No `.env` value reads.
+- No browser-side secret keys.
+- No shell interpolation from user-controlled provider names.
+- Sandbox first; live external mutations require fresh confirmation.
+- No claim of merchant approval or successful payment without direct evidence.
 
 ## Verify
 
@@ -95,22 +106,5 @@ python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py \
 python3 ~/.codex/skills/.system/plugin-creator/scripts/validate_plugin.py .
 ```
 
-## Privacy and trust
-
-- No telemetry is collected in this release.
-- The local recommender does not send project or business data anywhere.
-- Provider recommendations are derived from the committed catalog and rules.
-- Commercial relationships must be disclosed before they can influence
-  ordering or recommendations.
-- Secrets must stay in environment variables, provider dashboards, secret
-  managers, or operating-system credential stores.
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md). Provider eligibility and capabilities
-change frequently, so source every change from current official material and
-update the verification date.
-
-## License
-
-MIT. Built by [BeatAPI](https://beatapi.io).
+See [the PRD](docs/PRD.md), [architecture](docs/ARCHITECTURE.md), and
+[contribution guide](CONTRIBUTING.md). Licensed under MIT.

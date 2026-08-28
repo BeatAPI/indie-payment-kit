@@ -39,13 +39,18 @@ async function main() {
   const skill = await readFile(path.join(skillRoot, 'SKILL.md'), 'utf8');
   assert(skill.startsWith('---\nname: indie-payment-kit\n'), 'Skill frontmatter is missing or invalid.');
   assert(!skill.includes('[TODO:'), 'Skill contains unfinished scaffold placeholders.');
+  assert(skill.includes('Never finish by telling the user to invoke'), 'Skill must preserve the single-entry invariant.');
 
   const openaiYaml = await readFile(path.join(skillRoot, 'agents', 'openai.yaml'), 'utf8');
   assert(openaiYaml.includes('$indie-payment-kit'), 'Default prompt must mention $indie-payment-kit.');
 
   const catalog = await readJson('skills/indie-payment-kit/references/provider-catalog.json');
-  assert(catalog.schemaVersion === 1, 'Unsupported provider catalog schema.');
-  assert(catalog.providers.length === 8, 'The v0.1 catalog must contain exactly eight providers.');
+  assert(catalog.schemaVersion === 2, 'Unsupported provider catalog schema.');
+  assert(catalog.providers.length === 8, 'The provider catalog must contain exactly eight providers.');
+
+  const providerPacks = await readJson('skills/indie-payment-kit/references/provider-packs.json');
+  assert(providerPacks.schemaVersion === 1, 'Unsupported provider-pack schema.');
+  assert(new Set(Object.keys(providerPacks.providers)).size === 8, 'Provider-pack manifest must contain exactly eight providers.');
 
   const ids = new Set();
   for (const provider of catalog.providers) {
@@ -55,6 +60,23 @@ async function main() {
     assert(provider.officialDocs.startsWith('https://'), `${provider.id} docs URL must be HTTPS.`);
     const adapterPath = path.join(skillRoot, 'references', provider.adapter);
     await readFile(adapterPath, 'utf8');
+    assert(provider.id in providerPacks.providers, `${provider.id} is missing from provider-packs.json.`);
+  }
+
+  for (const [providerId, pack] of Object.entries(providerPacks.providers)) {
+    assert(ids.has(providerId), `Unknown provider pack: ${providerId}`);
+    assert(pack.source.startsWith('https://'), `${providerId} provider-pack source must be HTTPS.`);
+    assert(
+      Array.isArray(pack.entrySkills) && pack.entrySkills.every((skill) => /^[a-z0-9][a-z0-9-]*$/.test(skill)),
+      `${providerId} contains an unsafe internal Skill name.`,
+    );
+    if (pack.install) {
+      assert(Array.isArray(pack.install) && pack.install.length >= 3, `${providerId} install command is invalid.`);
+      assert(pack.install[0] === 'npx', `${providerId} installer must use the allowlisted npx executable.`);
+      assert(!pack.install.some((token) => /[;&|`$\n\r]/.test(token)), `${providerId} installer contains shell control characters.`);
+      assert(!pack.install.some((token) => token.includes('@latest')), `${providerId} installer must not use a floating npm latest tag.`);
+      assert(/^sha512-[A-Za-z0-9+/]+=*$/.test(pack.installerIntegrity), `${providerId} installer integrity metadata is missing.`);
+    }
   }
 
   const verifiedAt = new Date(`${catalog.verifiedAt}T00:00:00Z`);
@@ -74,7 +96,7 @@ async function main() {
     }
   }
 
-  process.stdout.write(`Validated Indie Payment Kit: ${catalog.providers.length} providers, current as of ${catalog.verifiedAt}.\n`);
+  process.stdout.write(`Validated Indie Payment Kit v${manifest.version}: ${catalog.providers.length} providers and ${Object.keys(providerPacks.providers).length} managed provider sources, current as of ${catalog.verifiedAt}.\n`);
 }
 
 main().catch((error) => {

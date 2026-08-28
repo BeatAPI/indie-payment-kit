@@ -4,15 +4,15 @@ Use PayPal as a direct global checkout, invoice, order, or subscription option
 when its buyer reach and supported merchant route fit the product. Do not reduce
 it to a withdrawal wallet, and do not describe it as a Merchant of Record.
 
-## Official handoff
+## Internal official provider source
 
 - Official AI Toolkit: https://github.com/paypal/AI-Toolkit
 - Official Agent Toolkit: https://github.com/paypal/agent-toolkit
 - AI tools documentation: https://developer.paypal.com/ai-tools/get-started/
 - Claude Code plugin: `/plugin install paypal@claude-plugins-official`
 
-Use the official toolkit for current Orders, Subscriptions, Invoices, refunds,
-disputes, and MCP operations.
+Use the official toolkit inside Indie Payment Kit for current Orders, Subscriptions, Invoices,
+refunds, disputes, and optional MCP operations.
 
 ## Confirm before implementation
 

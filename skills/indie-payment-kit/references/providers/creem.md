@@ -3,16 +3,16 @@
 Use Creem for eligible global digital products when its Merchant of Record,
 checkout, subscription, and license-key model fits the seller.
 
-## Official handoff
+## Internal official provider source
 
 - Official AI guidance: https://docs.creem.io/code/sdks/ai-agents
 - Documentation: https://docs.creem.io/
 - Claude Code marketplace: `/plugin marketplace add armitage-labs/creem`
 - Claude Code Skill: `/plugin install creem-api@creem-skills`
 
-Use current official guidance for API schemas, webhook signatures, test mode,
-subscriptions, and license keys. Add the official MCP only when the user wants
-account operations and has authorized that connection.
+Use current official guidance inside Indie Payment Kit for API schemas, webhook signatures, test
+mode, subscriptions, and license keys. Add the official MCP only when the user wants account
+operations and has authorized that connection.
 
 ## Confirm before implementation
 

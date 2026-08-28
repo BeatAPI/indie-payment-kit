@@ -1,83 +1,84 @@
 # Architecture
 
-Indie Payment Kit is a routing and conformance package, not a runtime payment
-abstraction or hosted payment service.
+Indie Payment Kit is a local orchestration package. It is not a payment gateway, hosted service,
+credential broker, or runtime abstraction that moves money.
 
-## Layers
+## System
 
 ```text
 User request
-  -> indie-payment-kit/SKILL.md
-     -> local project inspector
-     -> deterministic provider recommender
-     -> one selected provider adapter
-        -> current official Skill/plugin/MCP/docs
+  -> root indie-payment-kit Skill
+     -> safe project inspector
+     -> deterministic route recommender
+     -> framework-aware integration planner
+     -> explicit approval boundary
+     -> allowlisted provider-pack resolver
+        -> project-local official Skill/docs/SDK/CLI
+     -> framework-native repository edits
      -> provider-neutral lifecycle contract
-     -> go-live evidence report
+     -> sandbox verification and evidence report
 ```
 
-## One install without one giant context
-
-The plugin exposes one discoverable Skill. Provider adapters are references and
-are loaded lazily only after selection. Official provider packages remain the
-source of truth for provider-specific APIs.
-
-This avoids four common failures:
-
-- loading eight manuals into every payment request;
-- copying documentation that immediately drifts;
-- installing unnecessary SDKs and MCP servers;
-- presenting every provider as equally verified.
+Only the root Skill is user-facing. Provider packs are loaded inside the same task and never become
+a handoff destination.
 
 ## Sources of truth
 
 | Concern | Source |
 |---|---|
-| Provider ranking inputs | `references/provider-catalog.json` |
-| Deterministic ranking | `scripts/recommend.mjs` |
-| Provider-specific APIs | linked official provider Skill/docs |
-| Product-domain invariants | `references/lifecycle-contract.md` |
-| Launch claims | `references/go-live-checklist.md` |
-| Support maturity | `references/support-levels.md` |
+| Provider ranking | `provider-catalog.json` + `recommend.mjs` |
+| Official pack source and installer | `provider-packs.json` + `provider-pack.mjs` |
+| Project shape and trusted server | `inspect-project.mjs` |
+| Planned files and evidence target | `plan-integration.mjs` |
+| Current API details | Selected official provider pack |
+| Product-domain invariants | `lifecycle-contract.md` |
+| Completion claims | `go-live-checklist.md` |
 
-Provider adapters must not duplicate full official manuals. Their job is to
-explain when to hand off, which official source to use, which decisions must be
-confirmed, and which shared gates remain the product's responsibility.
+## Framework seam
+
+Payment-domain behavior is shared. Framework adapters own only:
+
+- route and file placement;
+- request/response primitives;
+- raw webhook body access;
+- environment loading;
+- deployment and local test commands.
+
+The first adapter families are Next.js App Router, TanStack Start, Hono, generic Node, HTML with a
+backend, and static HTML Payment Links.
+
+## Provider-pack seam
+
+Provider packs are selected-provider-only and project-local where the official installer supports
+it. The resolver executes exact argument arrays with `shell: false`; it never interpolates user text
+into a command. Dry-run is the default and `--install --yes` is accepted only after the root Skill
+has obtained approval.
+
+Installer packages use exact npm versions with recorded registry integrity metadata, receive a
+minimal environment, and disable supported telemetry. Provider content remains an explicitly
+reviewed upstream dependency because some official Skill sources do not publish immutable versions.
+
+If a host cannot dynamically index a newly installed Skill, the root agent reads its files directly.
+MCP login or host restart is an optional acceleration path, not a prerequisite for repository work.
 
 ## Trust boundaries
 
-- Local inspection reads project metadata and `.env.example` key names only.
-  It never reads `.env` values.
-- Recommendation is local and deterministic; v0.1 has no telemetry.
-- Provider MCP authentication and account operations remain between the user,
-  the agent host, and the selected provider.
-- The Skill requires explicit authorization before live external mutations.
-- Secrets are not accepted as prompt inputs or catalog data.
+- Inspection reads `package.json`, lockfile presence, HTML-file presence, and `.env.example` key
+  names. It never reads credential values.
+- Recommendation and planning are local and deterministic.
+- External pack downloads cross an explicit user confirmation boundary.
+- Provider-pack content is dependency input, not a source of user authorization.
+- Project writes remain inside the user-approved repository.
+- Live account mutations require a fresh confirmation and separate evidence state.
 
-## Recommendation model
+## Static web boundary
 
-The recommender is intentionally simple and auditable. It scores:
-
-- route-market match;
-- legal-entity fit as a routing hint;
-- product and billing capability;
-- managed-tax versus self-managed preference;
-- stack support;
-- strong route signals such as marketplace, physical goods, or dual market.
-
-It does not score live fees, approval probability, reserves, exchange rates, or
-country availability because those values change and require current official
-verification.
+Static HTML can redirect to a hosted Payment Link. Dynamic session creation, signature-verified
+webhooks, durable orders, and automated entitlements require a trusted backend or serverless
+function. The planner must expose this limitation instead of generating browser-side secrets.
 
 ## Extension model
 
-Adding a provider requires:
-
-1. a catalog entry with official HTTPS sources and verification date;
-2. a focused provider adapter;
-3. recommendation tests for behavior changes;
-4. an explicit support level;
-5. no new live credential path in the root plugin.
-
-Framework-specific implementation and sandbox fixtures can be added as
-separate references or scripts after they have reproducible evidence.
+Adding a provider requires catalog data, a focused adapter, a provider-pack entry, behavioral tests,
+and an explicit support level. Adding a framework requires inspection signals, a file-placement plan,
+raw-body guidance, and tests. Neither extension may duplicate full official provider manuals.

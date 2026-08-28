@@ -1,89 +1,108 @@
 ---
 name: indie-payment-kit
-description: Choose, compare, integrate, migrate, or review payment providers for an indie SaaS, API, or digital product. Use when the user wants one workflow across Stripe, PayPal, Dodo Payments, Paddle, Polar, Creem, Alipay, and WeChat Pay, or needs a provider-neutral payment launch check. Do not use it to move money or mutate live payment accounts without explicit authorization.
+description: Select, install, implement, test, review, or migrate payment providers for an indie SaaS, API, app, or website through one user-facing workflow. Use for Stripe, PayPal, Dodo Payments, Paddle, Polar, Creem, Alipay, or WeChat Pay across Next.js, TanStack Start, Hono, Node backends, and HTML sites. The user should not need to invoke a provider Skill separately.
 ---
 
 # Indie Payment Kit
 
-Reduce payment-provider research and setup to one entry point. Recommend the
-right route, load only the selected provider guidance, prefer current official
-provider skills and documentation, and verify the integration against one
-shared lifecycle contract.
+Own the payment outcome from project inspection through sandbox evidence. Official provider
+Skills, SDKs, CLIs, MCP servers, and documentation are internal dependencies of this workflow,
+not additional user-facing entry points.
 
-## Choose the operating mode
+## Single-entry invariant
 
-- **Select**: compare providers for a new product.
-- **Integrate**: implement the confirmed provider in an existing project.
-- **Review**: inspect an existing integration and report launch blockers.
-- **Migrate**: plan or execute a provider migration without breaking active
-  customers or entitlements.
+- Keep the conversation inside `indie-payment-kit`.
+- Never finish by telling the user to invoke, open, or continue in a provider Skill.
+- Load only the confirmed provider pack and only the capabilities needed for this integration.
+- Provider-pack instructions supply current API details; this Skill owns project structure,
+  multi-provider coordination, lifecycle invariants, verification, and status truth.
+- Installing a provider pack never grants permission to run its unrelated commands or mutate a
+  live account.
 
-## Selection workflow
+## Execute the workflow
 
-1. Infer the project stack and existing payment dependencies from the repo.
-   Run `node <skill-dir>/scripts/inspect-project.mjs <project-dir>` when a
-   machine-readable scan is useful.
-2. Collect only missing decision inputs: target market, legal-entity shape,
-   product type, billing model, tax preference, and stack. Read
-   [references/decision-model.md](references/decision-model.md) for definitions.
-3. Run the deterministic recommender:
+1. Inspect the target repository:
 
    ```bash
-   node <skill-dir>/scripts/recommend.mjs \
-     --market global \
-     --entity individual \
-     --product saas \
-     --billing subscription \
-     --tax managed \
-     --stack nextjs
+   node <skill-dir>/scripts/inspect-project.mjs <project-dir>
    ```
 
-4. Present one primary recommendation and one alternative. Separate verified
-   facts from eligibility assumptions. Never imply that a recommendation
-   guarantees merchant approval, supported countries, or legal compliance.
-5. Get confirmation before installing provider packages, configuring external
-   accounts, or changing the project.
+   Detect the framework, trusted-server capability, package manager, existing payment signals,
+   and environment-variable names. Do not read `.env` values.
 
-For a dual-market result, treat the global and mainland-China rails as two
-coordinated integrations. Do not pretend one provider automatically satisfies
-both routes.
+2. If the provider is not already selected, collect only missing market, entity, product,
+   billing, tax, and stack facts. Read
+   [references/decision-model.md](references/decision-model.md), then use the deterministic
+   recommender. Present one primary route and one alternative, but continue the same workflow.
 
-## Integration and review workflow
+3. Build the execution plan after provider confirmation:
 
-After the user confirms a provider:
+   ```bash
+   node <skill-dir>/scripts/plan-integration.mjs \
+     --project <project-dir> \
+     --provider stripe \
+     --billing subscription
+   ```
 
-1. Read only that provider's file under `references/providers/`.
-2. Use the provider's current official Skill, plugin, MCP, SDK, and docs when
-   available. The adapter is a routing layer, not a copied provider manual.
-3. Read [references/lifecycle-contract.md](references/lifecycle-contract.md)
-   before implementing or reviewing business logic.
-4. Keep provider SDK calls behind a narrow adapter. Keep orders,
-   subscriptions, and entitlements in the product's own domain model.
-5. Treat verified webhooks or server-side status retrieval as payment truth;
-   never grant access from a browser success redirect alone.
-6. Require signature verification, idempotency, atomic entitlement changes,
-   refund/cancellation revocation, environment separation, and replayable
-   observability.
-7. Read [references/go-live-checklist.md](references/go-live-checklist.md) and
-   report each gate as pass, fail, not tested, or not applicable.
+   Read [references/framework-matrix.md](references/framework-matrix.md) when the detected target
+   is not obvious. Pure static HTML gets a Payment Link flow unless the user approves adding a
+   backend or serverless function.
 
-## Safety and truthfulness
+4. Before downloading an external provider pack or changing the project, summarize the selected
+   provider, official source, packages, files, test environment, and expected evidence. Obtain one
+   explicit confirmation covering those reversible actions.
 
-- Never ask the user to paste secrets into chat or commit credentials.
-- Never install all eight provider packages or load all provider references by
-  default. Select first, then load one route.
-- Require explicit authorization immediately before creating live products,
-  webhooks, refunds, subscriptions, or other external mutations.
-- Use sandbox/test mode until the user explicitly requests live configuration.
-- Distinguish code written, sandbox configured, sandbox payment verified,
-  production configured, and production payment verified.
-- Do not recommend unlicensed payment aggregation or qualification-bypass
-  services.
+5. Resolve and install the official provider pack internally:
 
-## Support claims
+   ```bash
+   node <skill-dir>/scripts/provider-pack.mjs \
+     --provider stripe \
+     --billing subscription
+   ```
 
-Read [references/support-levels.md](references/support-levels.md) before
-describing provider coverage. This release provides deterministic selection,
-official-source handoff, and provider-neutral conformance guidance for eight
-providers. It does not claim eight production integrations have been executed
-or certified by their providers.
+   After approval, repeat with `--install --yes --project <project-dir>` when an allowlisted
+   installer exists. Read [references/provider-pack-management.md](references/provider-pack-management.md).
+   Then run the resolver with `--locate` to obtain exact installed `SKILL.md` paths. If the host
+   does not refresh its Skill index, read those project-local files directly. Do not send the user
+   to a new conversation.
+
+6. Read [references/orchestration-contract.md](references/orchestration-contract.md) and
+   [references/lifecycle-contract.md](references/lifecycle-contract.md). Use current official
+   provider instructions to implement the planned files inside the user's repository:
+
+   - server-side checkout or an explicitly limited static Payment Link;
+   - verified webhook using the unmodified raw request body;
+   - stable local order and provider references;
+   - idempotent event claim and retry-safe processing;
+   - entitlement grant, renewal, cancellation, refund, dispute, and revocation;
+   - environment example keys without credential values;
+   - framework-native tests and a sandbox runbook.
+
+   Keep provider SDK calls behind a narrow adapter. Reuse the project's existing database, auth,
+   server routing, logging, and test patterns. Do not create a second payment domain if one exists.
+
+7. Run local validation before requesting credentials. Report missing key names and where the user
+   should place them; never ask the user to paste secret values into chat. Continue automatically
+   once the configured environment exposes the required keys.
+
+8. Use sandbox or test mode. Exercise checkout, webhook verification, duplicate delivery, and the
+   entitlement result. When provider credentials or merchant approval are unavailable, complete
+   every local step and stop at the exact missing prerequisite.
+
+9. Read [references/go-live-checklist.md](references/go-live-checklist.md). Report the highest
+   evidence state actually demonstrated, changed files, tests run, missing prerequisites, and the
+   next action. “Code written” is not “sandbox payment verified.”
+
+## Multiple providers
+
+When the user confirms multiple channels, keep one product-owned order and entitlement model and
+add separate provider adapters, checkout routes, webhook endpoints, event identities, and test/live
+configuration. Install and load each provider pack sequentially. Never install all providers just
+because the project supports multiple routes.
+
+## Production boundary
+
+Use test mode until the user explicitly asks for production configuration. Immediately before
+creating live products, webhooks, refunds, subscriptions, or other external mutations, state the
+exact action and obtain confirmation. Never claim merchant approval, production readiness, or a
+successful payment without direct evidence.

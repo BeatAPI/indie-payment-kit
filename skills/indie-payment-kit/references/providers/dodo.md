@@ -4,7 +4,7 @@ Use Dodo Payments for global SaaS, APIs, and digital products when a Merchant
 of Record route, subscriptions, usage, credits, licenses, or localized pricing
 fit the seller.
 
-## Official handoff
+## Internal official provider pack
 
 - Official Skills: https://github.com/dodopayments/skills
 - Official agent plugin: https://github.com/dodopayments/dodo-agent-plugin
@@ -13,7 +13,7 @@ fit the seller.
 
 The official package already covers framework adapters, checkout, webhooks,
 subscriptions, usage-based and credit-based billing, license keys, testing,
-and Better Auth. Load only the relevant official Skill.
+and Better Auth. Load only the relevant official Skill inside the root workflow.
 
 ## Confirm before implementation
 
