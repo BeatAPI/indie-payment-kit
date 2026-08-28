@@ -1,0 +1,44 @@
+{
+  "name": "indie-payment-kit",
+  "version": "0.1.0",
+  "description": "One entry point to choose, integrate, and verify payment providers for indie products.",
+  "author": {
+    "name": "BeatAPI",
+    "email": "support@beatapi.io",
+    "url": "https://beatapi.io"
+  },
+  "homepage": "https://github.com/BeatAPI/indie-payment-kit",
+  "repository": "https://github.com/BeatAPI/indie-payment-kit",
+  "license": "MIT",
+  "keywords": [
+    "payments",
+    "agent-skills",
+    "stripe",
+    "paypal",
+    "merchant-of-record",
+    "wechat-pay",
+    "alipay",
+    "indie-hackers"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Indie Payment Kit",
+    "shortDescription": "Choose and verify the right payment stack",
+    "longDescription": "Scan an indie SaaS, API, or digital-product project, compare eight common global and China payment providers, route to current official provider skills and documentation, and apply a provider-neutral checkout, webhook, entitlement, refund, and go-live contract.",
+    "developerName": "BeatAPI",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/BeatAPI/indie-payment-kit",
+    "privacyPolicyURL": "https://beatapi.io/privacy-policy",
+    "termsOfServiceURL": "https://beatapi.io/terms-of-service",
+    "defaultPrompt": [
+      "Use $indie-payment-kit to choose the right payment provider for this project.",
+      "Use $indie-payment-kit to review this payment integration before launch.",
+      "Use $indie-payment-kit to plan a safe migration to another payment provider."
+    ],
+    "brandColor": "#2563FF"
+  }
+}

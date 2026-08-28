@@ -1,0 +1,7 @@
+interface:
+  display_name: "Indie Payment Kit"
+  short_description: "Choose, integrate, and verify the right payment stack"
+  default_prompt: "Use $indie-payment-kit to choose and plan the right payment integration for this project."
+
+policy:
+  allow_implicit_invocation: true

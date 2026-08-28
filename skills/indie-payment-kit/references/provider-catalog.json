@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "verifiedAt": "2026-08-28",
+  "supportStatement": "Selection and official-source handoff, not guaranteed merchant eligibility or provider certification.",
+  "providers": [
+    {
+      "id": "stripe",
+      "name": "Stripe",
+      "route": "direct",
+      "markets": ["global"],
+      "entityFit": ["individual", "global-business"],
+      "products": ["saas", "digital-goods", "api", "physical", "marketplace"],
+      "billing": ["one-time", "subscription", "usage", "credits"],
+      "taxMode": "self",
+      "stacks": ["nextjs", "tanstack", "hono", "other"],
+      "officialSkill": "https://github.com/stripe/ai",
+      "officialDocs": "https://docs.stripe.com/",
+      "adapter": "providers/stripe.md",
+      "supportLevel": "official-handoff",
+      "cautions": [
+        "Account availability and supported capabilities depend on country and business type.",
+        "The merchant remains responsible for tax and compliance unless separate products are configured."
+      ]
+    },
+    {
+      "id": "paypal",
+      "name": "PayPal",
+      "route": "direct",
+      "markets": ["global"],
+      "entityFit": ["individual", "global-business"],
+      "products": ["saas", "digital-goods", "api", "physical", "marketplace"],
+      "billing": ["one-time", "subscription"],
+      "taxMode": "self",
+      "stacks": ["nextjs", "tanstack", "hono", "other"],
+      "officialSkill": "https://github.com/paypal/AI-Toolkit",
+      "officialDocs": "https://developer.paypal.com/ai-tools/get-started/",
+      "adapter": "providers/paypal.md",
+      "supportLevel": "official-handoff",
+      "cautions": [
+        "A production PayPal Business account and approved capabilities are required.",
+        "PayPal is a checkout option, not a Merchant of Record for the seller."
+      ]
+    },
+    {
+      "id": "dodo",
+      "name": "Dodo Payments",
+      "route": "mor",
+      "markets": ["global"],
+      "entityFit": ["individual", "global-business"],
+      "products": ["saas", "digital-goods", "api"],
+      "billing": ["one-time", "subscription", "usage", "credits"],
+      "taxMode": "managed",
+      "stacks": ["nextjs", "tanstack", "hono", "other"],
+      "officialSkill": "https://github.com/dodopayments/skills",
+      "officialDocs": "https://docs.dodopayments.com/",
+      "adapter": "providers/dodo.md",
+      "supportLevel": "official-handoff",
+      "cautions": [
+        "Merchant onboarding, product eligibility, reserves, and payout availability still require provider approval.",
+        "Confirm that the product is eligible for Merchant of Record treatment."
+      ]
+    },
+    {
+      "id": "paddle",
+      "name": "Paddle",
+      "route": "mor",
+      "markets": ["global"],
+      "entityFit": ["individual", "global-business"],
+      "products": ["saas", "digital-goods", "api"],
+      "billing": ["one-time", "subscription", "usage"],
+      "taxMode": "managed",
+      "stacks": ["nextjs", "tanstack", "hono", "other"],
+      "officialSkill": "https://developer.paddle.com/sdks/ai/agent-skills/",
+      "officialDocs": "https://developer.paddle.com/",
+      "adapter": "providers/paddle.md",
+      "supportLevel": "official-handoff",
+      "cautions": [
+        "Live account approval and product eligibility are separate from sandbox access.",
+        "Migration and subscription-state synchronization require explicit planning."
+      ]
+    },
+    {
+      "id": "polar",
+      "name": "Polar",
+      "route": "mor",
+      "markets": ["global"],
+      "entityFit": ["individual", "global-business"],
+      "products": ["saas", "digital-goods", "api"],
+      "billing": ["one-time", "subscription"],
+      "taxMode": "managed",
+      "stacks": ["nextjs", "tanstack", "hono", "other"],
+      "officialSkill": "https://github.com/polarsource/skills",
+      "officialDocs": "https://docs.polar.sh/",
+      "adapter": "providers/polar.md",
+      "supportLevel": "official-handoff",
+      "cautions": [
+        "Confirm current Merchant of Record coverage, fees, and payout support for the seller.",
+        "Do not assume every benefit or entitlement can be migrated automatically."
+      ]
+    },
+    {
+      "id": "creem",
+      "name": "Creem",
+      "route": "mor",
+      "markets": ["global"],
+      "entityFit": ["individual", "global-business"],
+      "products": ["saas", "digital-goods", "api"],
+      "billing": ["one-time", "subscription"],
+      "taxMode": "managed",
+      "stacks": ["nextjs", "tanstack", "hono", "other"],
+      "officialSkill": "https://docs.creem.io/code/sdks/ai-agents",
+      "officialDocs": "https://docs.creem.io/",
+      "adapter": "providers/creem.md",
+      "supportLevel": "official-handoff",
+      "cautions": [
+        "Confirm current onboarding, supported countries, product policy, and payout methods.",
+        "License-key and subscription events still need product-side entitlement reconciliation."
+      ]
+    },
+    {
+      "id": "alipay",
+      "name": "Alipay",
+      "route": "china-domestic",
+      "markets": ["china"],
+      "entityFit": ["china-business"],
+      "products": ["saas", "digital-goods", "api", "physical"],
+      "billing": ["one-time", "usage", "credits"],
+      "taxMode": "self",
+      "stacks": ["nextjs", "tanstack", "hono", "other"],
+      "officialSkill": "https://github.com/alipay/ai",
+      "officialDocs": "https://open.alipay.com/",
+      "adapter": "providers/alipay.md",
+      "supportLevel": "official-handoff",
+      "cautions": [
+        "Product access, merchant qualification, signing, and settlement depend on the selected Alipay product and entity.",
+        "Do not confuse merchant checkout integration with agent-wallet or HTTP 402 payment products."
+      ]
+    },
+    {
+      "id": "wechat-pay",
+      "name": "WeChat Pay",
+      "route": "china-domestic",
+      "markets": ["china"],
+      "entityFit": ["china-business"],
+      "products": ["saas", "digital-goods", "api", "physical"],
+      "billing": ["one-time", "credits"],
+      "taxMode": "self",
+      "stacks": ["nextjs", "tanstack", "hono", "other"],
+      "officialSkill": "https://github.com/wechatpay-apiv3/wechatpay-skills",
+      "officialDocs": "https://pay.wechatpay.cn/doc/v3/merchant/4012791875",
+      "adapter": "providers/wechat-pay.md",
+      "supportLevel": "official-handoff",
+      "cautions": [
+        "Merchant type, product access, AppID association, certificates, and settlement require provider review.",
+        "Small or micro merchant routes are conditional and must not be represented as universal personal access."
+      ]
+    }
+  ]
+}
