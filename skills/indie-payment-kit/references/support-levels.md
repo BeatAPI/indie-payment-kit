@@ -13,9 +13,16 @@ issues, and user-facing results.
 | `sandbox-verified` | Maintainers executed the documented sandbox lifecycle and saved reproducible tests. |
 | `production-reference` | A public reference implementation has verified production evidence without exposing sensitive data. |
 
-Version `0.2.0` claims `selectable` and `managed-provider-source` for the eight catalog providers.
-Stripe and Dodo additionally claim `orchestrated-preview` across the initial framework matrix.
-No provider claims `sandbox-verified` yet.
+Version `0.3` claims `selectable` for all eight catalog providers. Stripe, Dodo, PayPal, Paddle,
+Polar, Alipay, and WeChat Pay have checked official source and entry-Skill metadata plus locally
+tested installer isolation and selective-copy behavior. This does not claim that every upstream
+download was re-executed for the release. Creem has a provider-maintained AI-agent Skill source that
+is read manually because it is not currently exposed through standard Skills CLI discovery.
+
+Stripe and Dodo additionally claim `orchestrated-preview` for new Next.js App Router one-time
+payment sandbox starters. Subscriptions, existing payment domains, TanStack, Hono, Node, Pages
+Router, and every other provider use the official-pack-driven `agent-guided` execution mode. No
+provider claims `sandbox-verified` yet.
 
 Do not infer `sandbox-verified` or `production-reference` from the existence of
 an official provider Skill, generated code, a successful build, a checkout page opening, or a

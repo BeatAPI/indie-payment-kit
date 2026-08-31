@@ -30,7 +30,8 @@ a handoff destination.
 | Official pack source and installer | `provider-packs.json` + `provider-pack.mjs` |
 | Project shape and trusted server | `inspect-project.mjs` |
 | Planned files and evidence target | `plan-integration.mjs` |
-| Current API details | Selected official provider pack |
+| Checked-in write templates | `templates/` + `materialize-integration.mjs` |
+| Current API details | Isolated official provider pack |
 | Product-domain invariants | `lifecycle-contract.md` |
 | Completion claims | `go-live-checklist.md` |
 
@@ -47,12 +48,23 @@ Payment-domain behavior is shared. Framework adapters own only:
 The first adapter families are Next.js App Router, TanStack Start, Hono, generic Node, HTML with a
 backend, and static HTML Payment Links.
 
+Checked-in templates and framework support are separate concepts. Templates are optional sandbox
+accelerators. The root Skill can use a current official provider pack to write a native TanStack,
+Hono, Node, Pages Router, or other adapter without maintaining a provider-by-framework template
+matrix. Plans expose `checked-in-sandbox-template`, `agent-guided`, or `payment-link` truthfully.
+
+Before choosing either path, inspection searches for existing payment modules, routes, SDKs, data
+layers, and environment-key names. An existing domain selects `extend-existing` and suppresses
+generic template writes.
+
 ## Provider-pack seam
 
-Provider packs are selected-provider-only and project-local where the official installer supports
-it. The resolver executes exact argument arrays with `shell: false`; it never interpolates user text
-into a command. Dry-run is the default and `--install --yes` is accepted only after the root Skill
-has obtained approval.
+Provider packs are selected-provider-only. The allowlisted installer runs in a temporary project,
+then only the confirmed Skills are copied to `.indie-payment-kit/packs/`. User-owned discovery
+directories are never removed or rewritten. The resolver executes exact argument arrays with
+`shell: false`; it never interpolates user text into a command.
+Pinned npm installer packages are integrity-checked before spawn. Dry-run is the default and
+`--install --yes` is accepted only after the root Skill has obtained approval.
 
 Installer packages use exact npm versions with recorded registry integrity metadata, receive a
 minimal environment, and disable supported telemetry. Provider content remains an explicitly
@@ -68,7 +80,8 @@ MCP login or host restart is an optional acceleration path, not a prerequisite f
 - Recommendation and planning are local and deterministic.
 - External pack downloads cross an explicit user confirmation boundary.
 - Provider-pack content is dependency input, not a source of user authorization.
-- Project writes remain inside the user-approved repository.
+- Project writes canonicalize the approved repository and reject broad targets or symbolic-link
+  destinations before materializing templates or copying provider packs.
 - Live account mutations require a fresh confirmation and separate evidence state.
 
 ## Static web boundary

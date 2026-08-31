@@ -1,6 +1,6 @@
 # Indie Payment Kit PRD
 
-- 产品版本：v0.2 单入口编排器
+- 产品版本：v0.3 public beta
 - 项目归属：BeatAPI
 - 开源仓库：`BeatAPI/indie-payment-kit`
 - 核心形态：一个用户入口 Skill + 按需加载的官方 Provider Pack
@@ -60,27 +60,30 @@ Indie Payment Kit 让独立开发者只安装一个 Skill、只描述一次需�
 
 框架不是支付产品差异，而是安全代码落点差异。
 
-| 项目形态 | v0.2 行为 |
+| 项目形态 | v0.3 beta 行为 |
 |---|---|
-| Next.js App Router | 原生 Route Handler 接入 |
-| TanStack Start | 原生 Server Route 接入 |
-| Hono/Express/Fastify/Node | 复用已有后端路由和服务层 |
-| HTML/SPA + API | 前端按钮 + 通用后端完整闭环 |
+| 已有支付实现 | 识别并扩展现有支付域，禁止生成第二套订单/权益模型 |
+| Next.js App Router | Stripe/Dodo 一次性支付沙箱脚手架；其他能力由官方 Pack 驱动适配 |
+| TanStack Start | 官方 Provider Skill 驱动，写入原生 Server Route 并复用现有架构 |
+| Hono/Express/Fastify/Node | 官方 Provider Skill 驱动，复用已有后端路由和服务层 |
+| HTML/SPA + API | 前端入口 + 官方 Provider Skill 驱动的后端接入 |
 | 纯静态 HTML | Payment Link；明确提示无法自动验签和开权益 |
 
 完整支付闭环必须有可信服务端。浏览器不得保存 Secret Key、验证 webhook 或直接授予权益。
 
 ## 6. 支付商范围与能力等级
 
-| 支付商 | 选型 | 内部加载官方源 | 框架编排目标 |
+| 支付商 | 选型 | 内部官方源 | 当前执行方式 |
 |---|---:|---:|---:|
-| Stripe | 是 | 是 | P0 |
-| Dodo Payments | 是 | 是 | P0 |
-| 支付宝 | 是 | 是 | P1 |
-| 微信支付 | 是 | 是 | P1 |
-| PayPal、Paddle、Polar、Creem | 是 | 是 | P2 |
+| Stripe | 是 | 可安装官方 Skill | Next.js 一次性脚手架 + Agent 自主适配 |
+| Dodo Payments | 是 | 可安装官方 Skills | Next.js 一次性脚手架 + Agent 自主适配 |
+| 支付宝 | 是 | 可安装官方 Skill | Agent 自主适配 |
+| 微信支付 | 是 | 可安装官方 Skill | Agent 自主适配 |
+| PayPal、Paddle、Polar | 是 | 可安装官方 Skills | Agent 自主适配 |
+| Creem | 是 | 官方 Skill 文档 | Agent 直接读取官方源后适配 |
 
-八家可以被推荐，不代表八家已具备同等级沙箱证据。所有输出必须显示能力等级。
+八家可以被推荐，不代表八家已具备同等级沙箱证据。v0.3 没有任何支付商声明为
+`sandbox-verified`，所有输出必须显示能力等级。
 
 ## 7. P0 需求
 

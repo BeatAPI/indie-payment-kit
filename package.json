@@ -1,13 +1,14 @@
 {
   "name": "indie-payment-kit",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
-  "description": "One orchestrator that selects, installs, integrates, and sandbox-verifies payment providers for indie products.",
+  "description": "One payment-integration Skill that extends real projects from official provider packs and reports sandbox evidence.",
   "type": "module",
   "scripts": {
     "recommend": "node skills/indie-payment-kit/scripts/recommend.mjs",
     "inspect": "node skills/indie-payment-kit/scripts/inspect-project.mjs",
     "plan": "node skills/indie-payment-kit/scripts/plan-integration.mjs",
+    "materialize": "node skills/indie-payment-kit/scripts/materialize-integration.mjs",
     "provider-pack": "node skills/indie-payment-kit/scripts/provider-pack.mjs",
     "test": "node --test test/*.test.mjs",
     "validate": "node scripts/validate-repo.mjs",

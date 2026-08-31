@@ -1,20 +1,26 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-08-28",
+  "updatedAt": "2026-08-31",
   "installPolicy": "project-local, selected-provider-only, explicit-approval-before-download",
   "providers": {
     "stripe": {
       "source": "https://docs.stripe.com",
+      "sourceAuthority": "official-provider",
+      "sourceType": "well-known-skills",
+      "verifiedAt": "2026-08-31",
       "strategy": "skills-cli",
-      "install": ["npx", "-y", "skills@1.5.23", "add", "https://docs.stripe.com", "--copy", "--yes"],
+      "install": ["npx", "-y", "skills@1.5.23", "add", "https://docs.stripe.com", "--copy", "--yes", "--agent", "codex"],
       "installerIntegrity": "sha512-+hMNBSi35yfX0sKD+ZcRm9y5or7u313OdkcvrRvJAsAzGCaA8wRTu2OmVdN0KRbk9ybqKby5dijkn6OVvNTUmw==",
       "entrySkills": ["stripe-best-practices"],
       "loadPolicy": "Read the installed Stripe skill directly from the project if the host does not refresh its skill index."
     },
     "dodo": {
       "source": "https://github.com/dodopayments/skills",
+      "sourceAuthority": "official-provider",
+      "sourceType": "repository-skills",
+      "verifiedAt": "2026-08-31",
       "strategy": "skills-cli",
-      "install": ["npx", "-y", "skills@1.5.23", "add", "dodopayments/skills", "--copy", "--yes"],
+      "install": ["npx", "-y", "skills@1.5.23", "add", "dodopayments/skills", "--copy", "--yes", "--agent", "codex"],
       "installerIntegrity": "sha512-+hMNBSi35yfX0sKD+ZcRm9y5or7u313OdkcvrRvJAsAzGCaA8wRTu2OmVdN0KRbk9ybqKby5dijkn6OVvNTUmw==",
       "entrySkills": ["dodo-best-practices", "framework-adapters", "checkout-integration", "webhook-integration", "testing-and-go-live"],
       "capabilitySkills": {
@@ -26,44 +32,67 @@
     },
     "wechat-pay": {
       "source": "https://github.com/wechatpay-apiv3/wechatpay-skills",
+      "sourceAuthority": "official-provider",
+      "sourceType": "repository-skills",
+      "verifiedAt": "2026-08-31",
       "strategy": "skills-cli",
-      "install": ["npx", "-y", "skills@1.5.23", "add", "https://github.com/wechatpay-apiv3/wechatpay-skills", "--copy", "--yes"],
+      "install": ["npx", "-y", "skills@1.5.23", "add", "https://github.com/wechatpay-apiv3/wechatpay-skills", "--copy", "--yes", "--agent", "codex"],
       "installerIntegrity": "sha512-+hMNBSi35yfX0sKD+ZcRm9y5or7u313OdkcvrRvJAsAzGCaA8wRTu2OmVdN0KRbk9ybqKby5dijkn6OVvNTUmw==",
       "entrySkills": ["wechatpay-payment-integration"],
       "loadPolicy": "Use the domestic merchant entry unless the official pack routes the request elsewhere."
     },
     "alipay": {
-      "source": "https://github.com/alipay/ai",
-      "strategy": "official-installer",
-      "install": ["npx", "-y", "@alipay/alipay-aipay@1.6.6", "install"],
-      "installerIntegrity": "sha512-V+kEMiSSvviNHggxQy42OOIv9Bygfc5NNMT9sN4V7mDysqn4/piLooA0NCuGUv5p8S7nnpibgVEmy9TVUk7YDg==",
-      "entrySkills": ["alipay-aipay"],
-      "loadPolicy": "Select merchant collection versus agent payment before running the installer."
+      "source": "https://github.com/alipay/payment-skills",
+      "sourceAuthority": "official-provider",
+      "sourceType": "repository-skills",
+      "verifiedAt": "2026-08-31",
+      "strategy": "skills-cli",
+      "install": ["npx", "-y", "skills@1.5.23", "add", "https://github.com/alipay/payment-skills", "--copy", "--yes", "--agent", "codex"],
+      "installerIntegrity": "sha512-+hMNBSi35yfX0sKD+ZcRm9y5or7u313OdkcvrRvJAsAzGCaA8wRTu2OmVdN0KRbk9ybqKby5dijkn6OVvNTUmw==",
+      "entrySkills": ["alipay-payment-skill"],
+      "loadPolicy": "Load the official payment-processing skill from the isolated pack. Do not run wallet authorization or live payment operations without explicit approval."
     },
     "paypal": {
-      "source": "https://developer.paypal.com/ai-tools/get-started/",
-      "strategy": "official-docs",
-      "install": null,
-      "entrySkills": [],
-      "loadPolicy": "Use the official Agent Toolkit or MCP only when the target host can configure it without losing the current task."
+      "source": "https://github.com/paypal/AI-Toolkit",
+      "sourceAuthority": "official-provider",
+      "sourceType": "repository-skills",
+      "verifiedAt": "2026-08-31",
+      "strategy": "skills-cli",
+      "install": ["npx", "-y", "skills@1.5.23", "add", "https://github.com/paypal/AI-Toolkit", "--copy", "--yes", "--agent", "codex"],
+      "installerIntegrity": "sha512-+hMNBSi35yfX0sKD+ZcRm9y5or7u313OdkcvrRvJAsAzGCaA8wRTu2OmVdN0KRbk9ybqKby5dijkn6OVvNTUmw==",
+      "entrySkills": ["paypal-best-practices"],
+      "loadPolicy": "Load PayPal's official best-practices skill inside this workflow. MCP setup remains optional and requires separate authorization."
     },
     "paddle": {
-      "source": "https://developer.paddle.com/sdks/ai/agent-skills/",
-      "strategy": "official-docs",
-      "install": null,
-      "entrySkills": [],
-      "loadPolicy": "Read the current official agent-skill page and SDK guidance inside the orchestration task."
+      "source": "https://developer.paddle.com/",
+      "sourceAuthority": "official-provider",
+      "sourceType": "well-known-skills",
+      "verifiedAt": "2026-08-31",
+      "strategy": "skills-cli",
+      "install": ["npx", "-y", "skills@1.5.23", "add", "https://developer.paddle.com/", "--copy", "--yes", "--agent", "codex"],
+      "installerIntegrity": "sha512-+hMNBSi35yfX0sKD+ZcRm9y5or7u313OdkcvrRvJAsAzGCaA8wRTu2OmVdN0KRbk9ybqKby5dijkn6OVvNTUmw==",
+      "entrySkills": ["paddle-checkout-web", "paddle-webhooks", "paddle-sandbox-testing"],
+      "capabilitySkills": {
+        "subscription": ["paddle-subscription-sync"]
+      },
+      "loadPolicy": "Load only the official checkout, webhook, sandbox, and selected billing skills. Paddle's maintained examples are currently Next.js-first, so other frameworks remain guided adaptations."
     },
     "polar": {
       "source": "https://github.com/polarsource/skills",
+      "sourceAuthority": "official-provider",
+      "sourceType": "repository-skills",
+      "verifiedAt": "2026-08-31",
       "strategy": "skills-cli",
-      "install": ["npx", "-y", "skills@1.5.23", "add", "polarsource/skills", "--copy", "--yes"],
+      "install": ["npx", "-y", "skills@1.5.23", "add", "https://github.com/polarsource/skills", "--copy", "--yes", "--agent", "codex"],
       "installerIntegrity": "sha512-+hMNBSi35yfX0sKD+ZcRm9y5or7u313OdkcvrRvJAsAzGCaA8wRTu2OmVdN0KRbk9ybqKby5dijkn6OVvNTUmw==",
-      "entrySkills": [],
-      "loadPolicy": "List the current official skills before choosing the minimum required set."
+      "entrySkills": ["polar-integration", "polar-testing"],
+      "loadPolicy": "Load Polar's framework-neutral integration and sandbox-testing skills. Do not install setup or migration skills unless the request needs them."
     },
     "creem": {
       "source": "https://docs.creem.io/code/sdks/ai-agents",
+      "sourceAuthority": "official-provider",
+      "sourceType": "official-skill-manual",
+      "verifiedAt": "2026-08-31",
       "strategy": "official-docs",
       "install": null,
       "entrySkills": [],

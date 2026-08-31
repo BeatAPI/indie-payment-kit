@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "verifiedAt": "2026-08-28",
+  "verifiedAt": "2026-08-31",
   "supportStatement": "Selection and single-entry orchestration do not guarantee merchant eligibility, sandbox evidence, production readiness, or provider certification.",
   "providers": [
     {
@@ -127,7 +127,7 @@
       "billing": ["one-time", "usage", "credits"],
       "taxMode": "self",
       "stacks": ["nextjs", "tanstack", "hono", "node", "html", "other"],
-      "officialSkill": "https://github.com/alipay/ai",
+      "officialSkill": "https://github.com/alipay/payment-skills",
       "officialDocs": "https://open.alipay.com/",
       "adapter": "providers/alipay.md",
       "supportLevel": "managed-provider-source",
