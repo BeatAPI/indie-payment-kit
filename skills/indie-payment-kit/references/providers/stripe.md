@@ -10,7 +10,7 @@ and compliance operations, or needs flexible marketplace/platform primitives.
 - Universal Skills install: `npx skills add https://docs.stripe.com`
 - Codex plugin: `codex plugin add stripe@openai-curated`
 
-Load the current official Stripe Skill/plugin inside Indie Payment Kit for SDK calls, Checkout,
+Load the current official Stripe Skill from `.indie-payment-kit/packs/` for SDK calls, Checkout,
 Billing, Connect, webhook signatures, and account operations. Do not ask the developer to continue
 in Stripe as a separate Skill.
 

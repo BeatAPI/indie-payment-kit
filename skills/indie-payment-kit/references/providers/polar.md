@@ -8,10 +8,10 @@ its Merchant of Record, benefits, checkout, and customer portal model fit.
 - Official Skills: https://github.com/polarsource/skills
 - Documentation: https://docs.polar.sh/
 
-The official repository includes setup, integration, testing, and migration
-Skills. Load `setup-polar` for a new project, `polar-integration` for
-checkout/portal/webhooks, or `polar-migration` for provider changes without exposing them as
-separate user entry points.
+The official repository includes setup, integration, testing, and migration Skills. The managed
+pack currently allowlists only `polar-integration` and `polar-testing`; add setup or migration
+Skills to the reviewed manifest only when the confirmed request needs them, without exposing them
+as separate user entry points.
 
 ## Confirm before implementation
 

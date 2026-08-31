@@ -33,6 +33,36 @@ const paymentSignals = [
   ['wechatpay', 'wechat-pay'],
 ];
 
+const dataLayerPackages = [
+  ['drizzle-orm', 'drizzle'],
+  ['@prisma/client', 'prisma'],
+  ['@supabase/supabase-js', 'supabase'],
+  ['sequelize', 'sequelize'],
+  ['typeorm', 'typeorm'],
+  ['mongoose', 'mongoose'],
+];
+
+const paymentDomainCandidates = [
+  'src/core/payment',
+  'src/modules/payment',
+  'src/routes/api/payment',
+  'src/routes/api/payments',
+  'src/payment',
+  'src/payments',
+  'src/lib/payment',
+  'src/lib/payments',
+  'lib/payment',
+  'lib/payments',
+  'app/api/payment',
+  'app/api/payments',
+  'pages/api/payment',
+  'pages/api/payments',
+  'server/payment',
+  'server/payments',
+  'api/payment',
+  'api/payments',
+];
+
 async function exists(filePath) {
   try {
     await access(filePath);
@@ -68,6 +98,11 @@ export async function inspectProject(inputPath = '.') {
 
   const frameworks = detectFromDependencies(dependencies, frameworkPackages);
   const paymentDependencies = detectFromDependencies(dependencies, paymentSignals);
+  const dataLayers = detectFromDependencies(dependencies, dataLayerPackages);
+  const existingPaymentPaths = [];
+  for (const candidate of paymentDomainCandidates) {
+    if (await exists(path.join(projectDir, candidate))) existingPaymentPaths.push(candidate);
+  }
   const hasRootHtml = await exists(path.join(projectDir, 'index.html'));
   const hasPublicHtml = await exists(path.join(projectDir, 'public', 'index.html'));
   const hasHtml = hasRootHtml || hasPublicHtml;
@@ -89,6 +124,29 @@ export async function inspectProject(inputPath = '.') {
   if (integratedServer) serverCapability = 'integrated';
   else if (backendServer) serverCapability = 'backend';
   else if (projectKind === 'static-web') serverCapability = 'external-required';
+
+  let nextAppRoot = null;
+  let nextPagesRoot = null;
+  let nextRouter = 'unknown';
+  if (frameworks.includes('nextjs')) {
+    const hasSrcApp = await exists(path.join(projectDir, 'src', 'app'));
+    const hasApp = await exists(path.join(projectDir, 'app'));
+    const hasSrcPages = await exists(path.join(projectDir, 'src', 'pages'));
+    const hasPages = await exists(path.join(projectDir, 'pages'));
+    if (hasSrcApp) {
+      nextRouter = 'app';
+      nextAppRoot = 'src/app';
+    } else if (hasApp) {
+      nextRouter = 'app';
+      nextAppRoot = 'app';
+    } else if (hasSrcPages || hasPages) {
+      nextRouter = 'pages';
+      nextPagesRoot = hasSrcPages ? 'src/pages' : 'pages';
+    } else {
+      nextRouter = 'app';
+      nextAppRoot = 'app';
+    }
+  }
 
   let integrationTarget = 'other';
   if (frameworks.includes('nextjs')) integrationTarget = 'nextjs';
@@ -121,10 +179,15 @@ export async function inspectProject(inputPath = '.') {
     projectKind,
     serverCapability,
     integrationTarget,
+    nextAppRoot,
+    nextPagesRoot,
+    nextRouter,
     hasHtml,
     serverDirectories,
     suggestedStack: integrationTarget,
     paymentDependencies,
+    existingPaymentPaths,
+    dataLayers,
     safeEnvironmentKeys,
     warnings: [
       ...(packageJson ? [] : ['No package.json found; inspect the project manually.']),

@@ -35,11 +35,14 @@ async function main() {
 
   const packageJson = await readJson('package.json');
   assert(packageJson.version === manifest.version, 'package.json and plugin versions must match.');
+  const packageLock = await readJson('package-lock.json');
+  assert(packageLock.version === packageJson.version, 'package-lock.json and package versions must match.');
+  assert(packageLock.packages?.['']?.version === packageJson.version, 'package-lock root package version must match.');
 
   const skill = await readFile(path.join(skillRoot, 'SKILL.md'), 'utf8');
   assert(skill.startsWith('---\nname: indie-payment-kit\n'), 'Skill frontmatter is missing or invalid.');
   assert(!skill.includes('[TODO:'), 'Skill contains unfinished scaffold placeholders.');
-  assert(skill.includes('Never finish by telling the user to invoke'), 'Skill must preserve the single-entry invariant.');
+  assert(skill.includes('Never tell the user to continue in a provider Skill'), 'Skill must preserve the single-entry invariant.');
 
   const openaiYaml = await readFile(path.join(skillRoot, 'agents', 'openai.yaml'), 'utf8');
   assert(openaiYaml.includes('$indie-payment-kit'), 'Default prompt must mention $indie-payment-kit.');
@@ -66,6 +69,12 @@ async function main() {
   for (const [providerId, pack] of Object.entries(providerPacks.providers)) {
     assert(ids.has(providerId), `Unknown provider pack: ${providerId}`);
     assert(pack.source.startsWith('https://'), `${providerId} provider-pack source must be HTTPS.`);
+    assert(pack.sourceAuthority === 'official-provider', `${providerId} must use a provider-maintained source.`);
+    assert(
+      ['well-known-skills', 'repository-skills', 'official-skill-manual'].includes(pack.sourceType),
+      `${providerId} has an unsupported provider source type.`,
+    );
+    assert(/^\d{4}-\d{2}-\d{2}$/.test(pack.verifiedAt), `${providerId} source verification date is missing.`);
     assert(
       Array.isArray(pack.entrySkills) && pack.entrySkills.every((skill) => /^[a-z0-9][a-z0-9-]*$/.test(skill)),
       `${providerId} contains an unsafe internal Skill name.`,
@@ -75,6 +84,8 @@ async function main() {
       assert(pack.install[0] === 'npx', `${providerId} installer must use the allowlisted npx executable.`);
       assert(!pack.install.some((token) => /[;&|`$\n\r]/.test(token)), `${providerId} installer contains shell control characters.`);
       assert(!pack.install.some((token) => token.includes('@latest')), `${providerId} installer must not use a floating npm latest tag.`);
+      const agentIndex = pack.install.indexOf('--agent');
+      assert(pack.install[agentIndex + 1] === 'codex', `${providerId} staging install must target only the Codex discovery path.`);
       assert(/^sha512-[A-Za-z0-9+/]+=*$/.test(pack.installerIntegrity), `${providerId} installer integrity metadata is missing.`);
     }
   }

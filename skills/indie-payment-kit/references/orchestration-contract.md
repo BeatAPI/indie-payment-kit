@@ -10,8 +10,10 @@ Developer request
   -> inspect project
   -> choose route and provider
   -> confirm external download and repository writes
-  -> load selected official provider pack internally
-  -> implement in the detected framework
+      -> load selected official provider pack internally
+      -> isolate it away from host skill discovery
+      -> materialize templates when available
+      -> implement remaining files in the detected framework
   -> validate locally
   -> configure sandbox prerequisites
   -> exercise checkout and webhook

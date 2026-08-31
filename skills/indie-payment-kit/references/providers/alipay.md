@@ -6,10 +6,11 @@ from agent-wallet and HTTP 402 payment products.
 
 ## Internal official provider pack
 
-- Merchant-integration Skills hub: https://github.com/alipay/ai
-- Agent payment Skills: https://github.com/alipay/payment-skills
+- Official payment Skills: https://github.com/alipay/payment-skills
+- Additional integration resources: https://github.com/alipay/ai
 - Open Platform: https://open.alipay.com/
-- Agent-payment installer: `npx -y @alipay/agent-payment@1.0.20 install`
+Load `alipay-payment-skill` into `.indie-payment-kit/packs/`. Do not run wallet authorization or
+live payment operations unless the user explicitly asks and approves the exact action.
 
 Select and load the official merchant-integration Skill inside Indie Payment Kit for website, app,
 mini-program, or service-provider checkout. Use the agent-payment package only when the request

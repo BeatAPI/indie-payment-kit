@@ -37,7 +37,9 @@ licenses, and adaptive pricing belong behind capability checks.
 
 1. A browser redirect never grants paid access by itself.
 2. Raw request bytes are preserved until webhook signature verification ends.
-3. One provider event or transaction cannot grant the same entitlement twice.
+3. One provider event or transaction cannot grant the same entitlement twice. Succeeded events and
+   actively leased processing events are duplicate acknowledgements; failed or lease-expired
+   processing may be retried through an atomic claim.
 4. Recording payment success and granting the entitlement share an atomic or
    safely recoverable boundary.
 5. Refunds, disputes, expirations, and cancellations have explicit entitlement

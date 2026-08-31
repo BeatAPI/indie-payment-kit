@@ -1,7 +1,7 @@
 {
   "name": "indie-payment-kit",
-  "version": "0.2.0",
-  "description": "One orchestrator that selects, installs, integrates, and sandbox-verifies payment providers for indie products.",
+  "version": "0.3.0",
+  "description": "One orchestrator that integrates official payment Skills into real projects and reports sandbox evidence.",
   "author": {
     "name": "BeatAPI",
     "email": "support@beatapi.io",
